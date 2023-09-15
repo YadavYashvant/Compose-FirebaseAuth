@@ -75,6 +75,7 @@ class MainActivity : ComponentActivity() {
                                         .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
+
                                     OutlinedButton(onClick = { /*TODO*/ }) {
                                         Text(text = "Sign in", Modifier.padding(10.dp))
                                     }
@@ -82,10 +83,10 @@ class MainActivity : ComponentActivity() {
                                     OutlinedButton(onClick = { /*TODO*/ }) {
                                         Text(text = "Register", Modifier.padding(10.dp))
                                     }
+
                                 }
                             }
                         }
-
                     }
                 }
             }
