@@ -17,8 +17,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -27,13 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 val fontfamily = FontFamily(
+    Font(R.font.signikabold, FontWeight.Bold)
 )
 @Composable
 @Preview
 fun LoginScreen() {
     OutlinedCard  (
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 25.dp)
+            .padding(horizontal = 12.dp, vertical = 30.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
         shape = MaterialTheme.shapes.large,
@@ -43,8 +46,10 @@ fun LoginScreen() {
                 text = "Register or log in",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
+                fontFamily = fontfamily,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 30.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             Textfield()
             TextfieldEmail()
