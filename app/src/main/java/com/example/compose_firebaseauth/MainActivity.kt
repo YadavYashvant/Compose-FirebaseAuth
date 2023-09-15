@@ -50,87 +50,10 @@ class MainActivity : ComponentActivity() {
                             .wrapContentSize()
                             .padding(horizontal = 10.dp)
                     ) {
-
-                        OutlinedCard  (
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp, vertical = 25.dp)
-                                .fillMaxWidth()
-                                .wrapContentHeight(),
-                            shape = MaterialTheme.shapes.large,
-                        ) {
-                            Column {
-                                Text(
-                                    text = "Register or log in",
-                                    fontSize = 30.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier
-                                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                                )
-                                Textfield()
-                                TextfieldEmail()
-
-                                Row(
-                                    modifier = Modifier
-                                        .padding(vertical = 16.dp, horizontal = 10.dp)
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-
-                                    OutlinedButton(onClick = { /*TODO*/ }) {
-                                        Text(text = "Sign in", Modifier.padding(10.dp))
-                                    }
-
-                                    OutlinedButton(onClick = { /*TODO*/ }) {
-                                        Text(text = "Register", Modifier.padding(10.dp))
-                                    }
-
-                                }
-                            }
-                        }
+                        LoginScreen()
                     }
                 }
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Textfield() {
-    val inputvalue = remember { mutableStateOf(TextFieldValue()) }
-    OutlinedTextField(value = inputvalue.value,
-        onValueChange = {inputvalue.value = it},
-        placeholder = { Text(text = "Enter user name ")},
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 10.dp),
-
-        shape = MaterialTheme.shapes.large,
-        colors = TextFieldDefaults.textFieldColors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
-        )
-    )
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TextfieldEmail() {
-
-    val inputvalue = remember { mutableStateOf(TextFieldValue()) }
-    OutlinedTextField(value = inputvalue.value,
-        onValueChange = {inputvalue.value = it},
-        placeholder = { Text(text = "Enter email id ")},
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 10.dp),
-
-        shape = MaterialTheme.shapes.large,
-        colors = TextFieldDefaults.textFieldColors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
-        )
-    )
-
 }
