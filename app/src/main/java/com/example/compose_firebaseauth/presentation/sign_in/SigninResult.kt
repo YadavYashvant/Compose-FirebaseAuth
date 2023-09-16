@@ -1,7 +1,7 @@
 package com.example.compose_firebaseauth.presentation.sign_in
 
 data class SigninResult (
-    val dataL: UserData,
+    val data: UserData?,
     val errorMessage: String?
 )
 
