@@ -67,7 +67,7 @@ class GoogleAuthUiClient(
             profilePicture = photoUrl?.toString()
         )
     }
-    suspend fun getSignInResult(intent: Intent): SigninResult {
+    suspend fun signInwithIntent(intent: Intent): SigninResult {
         val credential = onTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)

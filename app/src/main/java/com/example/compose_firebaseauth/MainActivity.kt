@@ -1,8 +1,13 @@
 package com.example.compose_firebaseauth
 
+import android.content.IntentSender
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,11 +40,29 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.compose_firebaseauth.presentation.sign_in.GoogleAuthUiClient
+import com.example.compose_firebaseauth.presentation.sign_in.SignInScreen
+import com.example.compose_firebaseauth.presentation.sign_in.SigninViewmodel
 import com.example.compose_firebaseauth.ui.theme.ComposeFirebaseAuthTheme
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            onTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +79,52 @@ class MainActivity : ComponentActivity() {
                             .padding(horizontal = 10.dp)
                     ) {
 
-                        //Not of any use right now!
-                        LoginScreen()
+                        val navController = rememberNavController()
+                        NavHost(navController = navController, startDestination = "sign_in") {
+                            composable("sign_in") {
+                                val  viewModel = viewModel<SigninViewmodel>()
+                                val state by viewModel.state.collectAsStateWithLifecycle()
+
+
+                                val launcher = rememberLauncherForActivityResult(
+                                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                                    onResult = {result ->
+                                        if(result.resultCode == RESULT_OK) {
+                                            lifecycleScope.launch {
+                                                val signInResult = googleAuthUiClient.signInwithIntent(
+                                                    intent = result.data ?: return@launch
+                                                )
+                                                viewModel.onSignInResult(signInResult)
+                                            }
+                                        }
+
+                                    }
+                                )
+
+                                LaunchedEffect(key1 = state.isSigninSuccessful) {
+                                    if(state.isSigninSuccessful) {
+                                        Toast.makeText(applicationContext,
+                                            "Sign in successful",
+                                            Toast.LENGTH_LONG
+                                            ).show()
+                                    }
+                                }
+
+                                SignInScreen(
+                                    state = state,
+                                    onSignInClick = {
+                                        lifecycleScope.launch {
+                                            val signInIntentSender = googleAuthUiClient.signIn()
+                                            launcher.launch(
+                                                IntentSenderRequest.Builder(
+                                                    signInIntentSender ?: return@launch
+                                                ).build()
+                                            )
+                                        }
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }
