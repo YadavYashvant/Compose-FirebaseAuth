@@ -53,6 +53,8 @@ class MainActivity : ComponentActivity() {
                             .wrapContentSize()
                             .padding(horizontal = 10.dp)
                     ) {
+
+                        //Not of any use right now!
                         LoginScreen()
                     }
                 }
