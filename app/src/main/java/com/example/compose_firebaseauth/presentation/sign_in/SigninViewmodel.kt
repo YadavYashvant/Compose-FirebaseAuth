@@ -15,7 +15,6 @@ class SigninViewmodel: ViewModel() {
             isSigninSuccessful = result.data != null,
             signInError = result.errorMessage
         )
-
         }
     }
 

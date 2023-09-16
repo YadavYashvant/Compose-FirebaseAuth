@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -19,26 +20,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.compose_firebaseauth.R
 import com.example.compose_firebaseauth.presentation.sign_in.UserData
+
+
+val fontfamily = FontFamily(
+    Font(R.font.signikabold, FontWeight.Bold)
+)
 
 @Composable
 fun ProfileScreen(
     userData: UserData?,
     onSignOut: () -> Unit
 ) {
-    OutlinedCard(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(horizontal = 20.dp, vertical = 20.dp)
+            .padding(horizontal = 32.dp, vertical = 50.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 50.dp)
+            ,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -47,7 +59,7 @@ fun ProfileScreen(
                     model = userData?.profilePicture, contentDescription = null,
                     modifier = Modifier
                         .size(150.dp)
-                        .clip(RectangleShape),
+                        .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
 
@@ -59,7 +71,8 @@ fun ProfileScreen(
                     text = userData.username,
                     textAlign = TextAlign.Center,
                     fontSize = 25.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = com.example.compose_firebaseauth.fontfamily
                 )
                 Spacer(modifier = Modifier.height(20.dp))
             }

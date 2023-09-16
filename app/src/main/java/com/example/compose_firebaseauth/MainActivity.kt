@@ -99,7 +99,6 @@ class MainActivity : ComponentActivity() {
                                                 viewModel.onSignInResult(signInResult)
                                             }
                                         }
-
                                     }
                                 )
 
@@ -143,9 +142,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-
                         }
-                    }
+                }
             }
         }
     }

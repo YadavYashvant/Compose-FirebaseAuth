@@ -71,7 +71,8 @@ fun SignInScreen(
                     Icon(imageVector = Icons.Outlined.AccountBox, contentDescription = null)
                     Text(text = "SIGN IN WITH GOOGLE", modifier = Modifier.padding(start = 10.dp),
                         textAlign = TextAlign.Start,
-                        fontSize = 22.sp
+                        fontSize = 22.sp,
+                        fontFamily = com.example.compose_firebaseauth.fontfamily
                         )
                 }
             }
