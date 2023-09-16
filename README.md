@@ -1,1 +1,1 @@
-# Compose-FirebaseAuth
+# Firebase Authentication in Jetpack compose
