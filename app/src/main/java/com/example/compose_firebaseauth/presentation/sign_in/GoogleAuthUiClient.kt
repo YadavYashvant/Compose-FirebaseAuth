@@ -1,6 +1,7 @@
 package com.example.compose_firebaseauth.presentation.sign_in
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentSender
 import com.example.compose_firebaseauth.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -44,5 +45,9 @@ class GoogleAuthUiClient(
             )
             .setAutoSelectEnabled(true)
             .build()
+    }
+
+    suspend fun getSignInResult(intent: Intent): SigninResult {
+
     }
 }
