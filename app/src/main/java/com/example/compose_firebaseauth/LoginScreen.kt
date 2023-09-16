@@ -27,10 +27,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 
 val fontfamily = FontFamily(
     Font(R.font.signikabold, FontWeight.Bold)
 )
+
+lateinit var auth: FirebaseAuth
 @Composable
 @Preview
 fun LoginScreen() {
