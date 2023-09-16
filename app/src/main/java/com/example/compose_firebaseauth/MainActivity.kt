@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.compose_firebaseauth.presentation.profile.ProfileScreen
 import com.example.compose_firebaseauth.presentation.sign_in.GoogleAuthUiClient
 import com.example.compose_firebaseauth.presentation.sign_in.SignInScreen
 import com.example.compose_firebaseauth.presentation.sign_in.SigninViewmodel
@@ -64,6 +65,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -73,17 +75,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(horizontal = 10.dp)
-                    ) {
-
                         val navController = rememberNavController()
                         NavHost(navController = navController, startDestination = "sign_in") {
                             composable("sign_in") {
                                 val  viewModel = viewModel<SigninViewmodel>()
                                 val state by viewModel.state.collectAsStateWithLifecycle()
+
+                                LaunchedEffect(key1 = Unit) {
+                                    if(googleAuthUiClient.getSignedInUser() != null) {
+                                        navController.navigate("user_screen")
+                                    }
+                                }
 
 
                                 val launcher = rememberLauncherForActivityResult(
@@ -107,6 +109,9 @@ class MainActivity : ComponentActivity() {
                                             "Sign in successful",
                                             Toast.LENGTH_LONG
                                             ).show()
+
+                                        navController.navigate("user_screen")
+                                        viewModel.resetState()
                                     }
                                 }
 
@@ -124,9 +129,23 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
+
+                            composable("user_screen") {
+                                ProfileScreen(
+                                    userData = googleAuthUiClient.getSignedInUser(),
+                                    onSignOut = {
+                                        lifecycleScope.launch {
+                                            googleAuthUiClient.signOut()
+                                            Toast.makeText(applicationContext, "Signed Out", Toast.LENGTH_LONG).show()
+
+                                            navController.popBackStack()
+                                        }
+                                    }
+                                )
+                            }
+
                         }
                     }
-                }
             }
         }
     }

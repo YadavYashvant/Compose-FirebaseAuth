@@ -33,7 +33,6 @@ val fontfamily = FontFamily(
     Font(R.font.signikabold, FontWeight.Bold)
 )
 
-lateinit var auth: FirebaseAuth
 @Composable
 @Preview
 fun LoginScreen() {
