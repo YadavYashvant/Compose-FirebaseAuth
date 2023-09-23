@@ -46,10 +46,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.compose_firebaseauth.presentation.daos.UserDao
+import com.example.compose_firebaseauth.presentation.models.User
 import com.example.compose_firebaseauth.presentation.profile.ProfileScreen
 import com.example.compose_firebaseauth.presentation.sign_in.GoogleAuthUiClient
 import com.example.compose_firebaseauth.presentation.sign_in.SignInScreen
 import com.example.compose_firebaseauth.presentation.sign_in.SigninViewmodel
+import com.example.compose_firebaseauth.presentation.sign_in.UserData
 import com.example.compose_firebaseauth.ui.theme.ComposeFirebaseAuthTheme
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.ktx.auth
@@ -117,6 +120,9 @@ class MainActivity : ComponentActivity() {
                                 SignInScreen(
                                     state = state,
                                     onSignInClick = {
+
+
+
                                         lifecycleScope.launch {
                                             val signInIntentSender = googleAuthUiClient.signIn()
                                             launcher.launch(
@@ -125,6 +131,16 @@ class MainActivity : ComponentActivity() {
                                                 ).build()
                                             )
                                         }
+
+                                        val user = googleAuthUiClient.getSignedInUser()
+                                        val userdata = User(
+                                            uid = user?.userId,
+                                            DisplayName = user?.username,
+                                            imageUrl = user?.profilePicture
+                                        )
+
+                                        val userDao = UserDao()
+                                        userDao.addUser(userdata)
                                     }
                                 )
                             }
